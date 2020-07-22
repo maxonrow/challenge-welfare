@@ -7,41 +7,48 @@
         </v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
+      <v-tabs-items style="height:100%" v-model="tab">
         <v-tab-item v-for="item in items" :key="item.tab">
           <!-- <v-card flat>
           <v-card-text>{{ item.content }}</v-card-text>
         </v-card> -->
           <div v-if="item.tab == 'Create'">
-            <v-card class="mx-10">
-              <v-row class="pa-5 d-flex justify-center">
-                <v-col>
-                  Create Token
-                </v-col>
-                <v-col cols="12"
-                  ><v-text-field v-model="name" type="text" placeholder="name"
-                /></v-col>
-                <v-col cols="12"
-                  ><v-text-field
-                    v-model="symbol"
-                    type="text"
-                    placeholder="symbol"
-                /></v-col>
-                <v-col cols="12"
-                  ><v-text-field
-                    v-model="maxSupply"
-                    type="text"
-                    placeholder="maximum Supply"
-                /></v-col>
-                <v-col cols="12"
-                  ><v-text-field
-                    v-model="metadata"
-                    type="text"
-                    placeholder="metadata"
-                /></v-col>
-                <v-btn @click="create()">Create</v-btn>
-              </v-row>
-            </v-card>
+            <div>
+              <v-card class="mx-10">
+                <v-row class="pa-5 d-flex justify-center">
+                  <v-col>
+                    Create Token
+                  </v-col>
+                  <v-col cols="12"
+                    ><v-text-field v-model="name" type="text" placeholder="name"
+                  /></v-col>
+                  <v-col cols="12"
+                    ><v-text-field
+                      v-model="symbol"
+                      type="text"
+                      placeholder="symbol"
+                  /></v-col>
+                  <v-col cols="12"
+                    ><v-text-field
+                      v-model="maxSupply"
+                      type="text"
+                      placeholder="maximum Supply"
+                  /></v-col>
+                  <v-col cols="12"
+                    ><v-text-field
+                      v-model="metadata"
+                      type="text"
+                      placeholder="metadata"
+                  /></v-col>
+                  <v-btn @click="create()">Create</v-btn>
+                </v-row>
+              </v-card>
+              <div class="pt-5">
+                <v-card dark class="pa-5 mx-10 mb-5">
+                  <div v-html="notification.create"></div>
+                </v-card>
+              </div>
+            </div>
           </div>
           <div v-if="item.tab == 'Transfer'">
             <v-card class="mx-10">
@@ -61,6 +68,11 @@
                 <v-btn @click="transfer()">Transfer</v-btn>
               </v-row>
             </v-card>
+            <div class="pt-5">
+              <v-card dark class="pa-5 mx-10 mb-5">
+                <div v-html="notification.transfer"></div>
+              </v-card>
+            </div>
           </div>
           <div v-if="item.tab == 'Search'">
             <v-card class="mx-10">
@@ -74,15 +86,18 @@
                 <v-btn @click="search">Check</v-btn>
               </v-row>
             </v-card>
+            <div class="pt-5">
+              <v-card dark class="pa-5 mx-10">
+                <div>Transaction Type: <span style="color:yellow">{{notification.search.type}}</span></div>
+                <div>Token: <span style="color:yellow">{{notification.search.token}}</span></div>
+                <div>From: <span style="color:yellow">{{notification.search.from}}</span></div>
+                <div>To: <span style="color:yellow">{{notification.search.to}}</span></div>
+                <div>Value: <span style="color:yellow">{{notification.search.value}}</span></div>
+              </v-card>
+            </div>
           </div>
         </v-tab-item>
       </v-tabs-items>
-    </v-card>
-    <v-card>
-      <!-- <div>Hash: {{ hash }}</div>
-      <div>Receipt</div>
-      <pre>{{receipt}}</pre> -->
-      <pre class="pa-5">{{ notification }}</pre>
     </v-card>
     <v-overlay opacity="0.9" v-if="loading">
       {{ msg }}
@@ -107,8 +122,18 @@ export default {
   },
   data: () => ({
     loading: false,
+    notification: {
+      create: "Hello",
+      transfer: "Please create a Token first",
+      search: {
+        type: "",
+        value: "",
+        from: "",
+        to: "",
+        token: "",
+      },
+    },
     msg: "",
-    notification: "Hello",
     balance: 0,
     address: "",
     value: "",
@@ -202,8 +227,12 @@ export default {
             fToken.symbol,
             overrides
           );
-        }
-      );
+        })
+        .catch(error => {
+          this.loading = false;
+          this.notification.create = "<span style='color:red'>"+error.info.message+"</span>";
+        })
+        ;
     },
     authourize(perform, symbol, overrides) {
       this.msg = "Authorizing Token...";
@@ -232,7 +261,8 @@ export default {
         (fToken) => {
           console.log("Updated");
           this.loading = false;
-          this.notification = "Token "+symbol+" created"
+          this.notification.create =
+            "Token <span style='color:green'>" + symbol + "</span> created";
           return (this.token = fToken);
         }
       );
@@ -255,23 +285,33 @@ export default {
       this.token.transfer(this.address, this.value).then((receipt) => {
         this.loading = false;
         if (receipt.status == 1) {
-          this.notification = "Transfered token to: "+ this.address;
+          this.notification.transfer =
+            "Transfered token <span style='color:green'>" +
+            this.symbol +
+            "</span> to: <span style='color:yellow'>" +
+            this.address +
+            "</span>";
           this.hash = receipt.hash;
-          }
-        else {
-          this.notification = "error";
+        } else {
+          this.notification.transfer = "error";
           this.hash = receipt.hash;
-          }
+        }
         // if (receipt.status == 1) return (this.hash = receipt.hash);
         // else return (this.hash = "error");
       });
     },
     search() {
-      this.providerConnection.getTransactionReceipt(this.hash).then((receipt)=>{
-        this.notification = receipt.payload.value.msg;
-        return (this.receipt = receipt);
-      })
-    }
+      this.providerConnection
+        .getTransactionReceipt(this.hash)
+        .then((receipt) => {
+          this.notification.search.type = receipt.payload.value.msg[0].type;
+          this.notification.search.value = receipt.payload.value.msg[0].value.value;
+          this.notification.search.from = receipt.payload.value.msg[0].value.from;
+          this.notification.search.to = receipt.payload.value.msg[0].value.to;
+          this.notification.search.token = receipt.payload.value.msg[0].value.symbol;
+          return (this.receipt = receipt);
+        });
+    },
   },
 };
 </script>
