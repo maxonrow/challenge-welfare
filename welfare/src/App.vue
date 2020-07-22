@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card class="ma-10 pb-10">
+    <v-card>
       <v-tabs fixed-tabs v-model="tab">
         <v-tab v-for="item in items" :key="item.tab">
           {{ item.tab }}
@@ -9,18 +9,45 @@
 
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item.tab">
-          <div v-if="item.tab == 'Mint'">
+          <!-- <v-card flat>
+          <v-card-text>{{ item.content }}</v-card-text>
+        </v-card> -->
+          <div v-if="item.tab == 'Create'">
             <v-card class="mx-10">
               <v-row class="pa-5 d-flex justify-center">
                 <v-col>
-                  Enroll Course
+                  Create Token
                 </v-col>
-                <v-col cols="12">
-                  <v-select
-                    :items="options"
-                    v-model="course"
-                    placeholder="Course"
-                  />
+                <v-col cols="12"
+                  ><v-text-field v-model="name" type="text" placeholder="name"
+                /></v-col>
+                <v-col cols="12"
+                  ><v-text-field
+                    v-model="symbol"
+                    type="text"
+                    placeholder="symbol"
+                /></v-col>
+                <v-col cols="12"
+                  ><v-text-field
+                    v-model="maxSupply"
+                    type="text"
+                    placeholder="maximum Supply"
+                /></v-col>
+                <v-col cols="12"
+                  ><v-text-field
+                    v-model="metadata"
+                    type="text"
+                    placeholder="metadata"
+                /></v-col>
+                <v-btn @click="create()">Create</v-btn>
+              </v-row>
+            </v-card>
+          </div>
+          <div v-if="item.tab == 'Transfer'">
+            <v-card class="mx-10">
+              <v-row class="pa-5 d-flex justify-center">
+                <v-col>
+                  Transfer Token
                 </v-col>
                 <v-col cols="12"
                   ><v-text-field
@@ -28,7 +55,10 @@
                     type="text"
                     placeholder="wallet address"
                 /></v-col>
-                <v-btn @click="mint()">Enroll</v-btn>
+                <v-col cols="12"
+                  ><v-text-field v-model="value" type="text" placeholder="value"
+                /></v-col>
+                <v-btn @click="transfer()">Transfer</v-btn>
               </v-row>
             </v-card>
           </div>
@@ -48,10 +78,10 @@
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-    <v-card class="mx-10 my-5">
+    <v-card>
       <!-- <div>Hash: {{ hash }}</div>
-      <div>Receipt</div> -->
-      <!-- <pre>{{ receipt }}</pre> -->
+      <div>Receipt</div>
+      <pre>{{receipt}}</pre> -->
       <pre class="pa-5">{{ notification }}</pre>
     </v-card>
     <v-overlay opacity="0.9" v-if="loading">
@@ -61,12 +91,9 @@
 </template>
 
 <script>
-import { mxw } from "mxw-sdk-js";
-import { hexlify, randomBytes, bigNumberify } from "mxw-sdk-js/dist/utils";
-import {
-  NonFungibleTokenActions,
-  NonFungibleToken,
-} from "mxw-sdk-js/dist/non-fungible-token";
+import { mxw, token } from "mxw-sdk-js";
+import { bigNumberify } from "mxw-sdk-js/dist/utils";
+import { FungibleTokenActions } from "mxw-sdk-js/dist/token";
 
 export default {
   name: "App",
@@ -75,15 +102,8 @@ export default {
     await this.init();
     this.providerConnection.getBlockNumber().then((blockNumber) => {
       console.log("Latest block number: " + blockNumber);
+      this.loading = false;
     });
-    for (var i = 1; i < 6; i++) {
-      await this.create(i);
-    }
-  },
-  watch: {
-    course(value) {
-      console.log(value);
-    },
   },
   data: () => ({
     loading: false,
@@ -97,15 +117,17 @@ export default {
     provider: mxw.Wallet,
     issuer: mxw.Wallet,
     middleware: mxw.Wallet,
-    token: NonFungibleToken,
-    tokenList: [],
+    token: token.FungibleToken,
     tab: null,
-    course: "",
+    name: "",
+    symbol: "",
+    maxSupply: "",
+    metadata: "",
     hash: "",
     receipt: {},
-    options: [],
     items: [
-      { tab: "Mint", content: "test" },
+      { tab: "Create", content: "test" },
+      { tab: "Transfer", content: "test" },
       { tab: "Search", content: "test" },
     ],
   }),
@@ -121,102 +143,79 @@ export default {
         name: "mxw",
       });
       const providerMnemonic =
-        "language indoor mushroom gold motor genuine tower ripple baby journey where offer crumble chuckle velvet dizzy trigger owner mother screen panic question cliff dish";
+        "naive hire arctic injury camp twelve actor valid process voice return unusual glad hen ginger brisk clever solve toss expire type road blood green";
       this.provider = mxw.Wallet.fromMnemonic(providerMnemonic).connect(
         this.providerConnection
       );
 
       const issuerMnemonic =
-        "appear scale write grow tiger puppy trick kite exhibit distance target cliff coin silly because train matrix weather list chat stamp warfare hobby ocean";
+        "wreck fiber slice novel nurse guess plate oven cotton life thought tape addict thank frown ready rival walk dish short solution work arena nurse";
       this.issuer = mxw.Wallet.fromMnemonic(issuerMnemonic).connect(
         this.providerConnection
       );
 
       const middlewareMnemonic =
-        "guard loop tell accuse village list prevent sea dolphin weapon own track spike venue gun blind carry hawk weapon track rain amazing author eagle";
+        "police toilet cupboard song blanket duty wrestle public bike cattle install page option spell scout crop pig answer access alarm gain fish absent pen";
       this.middleware = mxw.Wallet.fromMnemonic(middlewareMnemonic).connect(
         this.providerConnection
       );
     },
-    create(i) {
-      this.msg = "Generating course " + i + "...";
-      let nonFungibleTokenProperties = null;
-      let symbol = hexlify(randomBytes(4)).substring(2);
-      nonFungibleTokenProperties = {
-        name: "NFT" + symbol,
-        symbol: symbol,
+    create() {
+      this.loading = true;
+      this.msg = "Generating Token...";
+      let fungibleTokenProperties = null;
+      fungibleTokenProperties = {
+        name: this.name,
+        symbol: this.symbol,
+        decimals: 18,
+        fixedSupply: true,
+        maxSupply: bigNumberify("10000000000000"),
         fee: {
-          to: "mxw1md4u2zxz2ne5vsf9t4uun7q2k0nc3ly5g22dne",
-          value: bigNumberify("1"),
+          to: "mxw173qf9y2ae0cx8y07ez6qsl9k2gs2l5955hfc7x",
+          value: bigNumberify("0"),
         },
         metadata: "",
-        properties: "",
       };
+      let burnable = true;
       let overrides = {
         tokenFees: [
-          { action: NonFungibleTokenActions.transfer, feeName: "default" },
+          { action: FungibleTokenActions.transfer, feeName: "default" },
           {
-            action: NonFungibleTokenActions.transferOwnership,
+            action: FungibleTokenActions.transferOwnership,
             feeName: "default",
           },
-          {
-            action: NonFungibleTokenActions.acceptOwnership,
-            feeName: "default",
-          },
+          { action: FungibleTokenActions.acceptOwnership, feeName: "default" },
         ],
-        endorserList: [],
-        mintLimit: -1,
-        transferLimit: 1,
-        burnable: true,
-        transferable: true,
-        modifiable: true,
-        pub: false,
+        burnable,
       };
-      return NonFungibleToken.create(
-        nonFungibleTokenProperties,
-        this.issuer
-      ).then((nfToken) => {
-        console.log("Token had been created");
-        // switch (i) {
-        //   case 1:
-        //     this.options.push({ text: "Supernatural Course", value: symbol });
-        //     break;
-        //   case 2:
-        //     this.options.push({ text: "Psychic Course", value: symbol });
-        //     break;
-        //   case 3:
-        //     this.options.push({ text: "Maths Course", value: symbol });
-        //     break;
-        //   case 4:
-        //     this.options.push({ text: "Geography Course", value: symbol });
-        //     break;
-        //   case 5:
-        //     this.options.push({ text: "Computer Course", value: symbol });
-        //     break;
-        //   default:
-        //     this.options.push({ text: "404", value: symbol });
-        //     break;
-        // }
-        this.options.push(symbol);
-        return this.authourize(
-          NonFungibleToken.approveNonFungibleToken,
-          nfToken.symbol,
-          overrides,
-          i
-        );
-      });
+      if (burnable) {
+        overrides.tokenFees.push({
+          action: FungibleTokenActions.burn,
+          feeName: "transfer",
+        });
+      }
+      token.FungibleToken.create(fungibleTokenProperties, this.issuer).then(
+        (fToken) => {
+          console.log("Token had been created");
+          return this.authourize(
+            token.FungibleToken.approveFungibleToken,
+            fToken.symbol,
+            overrides
+          );
+        }
+      );
     },
-    authourize(perform, symbol, overrides, i) {
-      this.msg = "Authorizing course " + i + "...";
+    authourize(perform, symbol, overrides) {
+      this.msg = "Authorizing Token...";
       return perform(symbol, this.provider, overrides)
         .then((transaction) => {
-          return NonFungibleToken.signNonFungibleTokenStatusTransaction(
+          return token.FungibleToken.signFungibleTokenStatusTransaction(
             transaction,
             this.issuer
           );
         })
         .then((transaction) => {
-          return NonFungibleToken.sendNonFungibleTokenStatusTransaction(
+          return token.FungibleToken.sendFungibleTokenStatusTransaction(
             transaction,
             this.middleware
           );
@@ -224,17 +223,17 @@ export default {
         .then((receipt) => {
           if (receipt.status == 1) console.log("success");
           else console.log("error");
-          return this.Query(symbol, i);
+          return this.Query(symbol);
         });
     },
-    Query(symbol, i) {
-      this.msg = "Updating course " + i + "...";
-      return NonFungibleToken.fromSymbol(symbol, this.issuer).then(
-        (nfToken) => {
+    Query(symbol) {
+      this.msg = "Updating Token...";
+      return token.FungibleToken.fromSymbol(symbol, this.issuer).then(
+        (fToken) => {
           console.log("Updated");
-          if (i == 5) this.loading = false;
-          return this.tokenList.push(nfToken);
-          // return (this.token = nfToken);
+          this.loading = false;
+          this.notification = "Token "+symbol+" created"
+          return (this.token = fToken);
         }
       );
     },
@@ -249,40 +248,30 @@ export default {
         return balance;
       });
     },
-    mint() {
+    transfer() {
       this.loading = true;
-      this.msg = "Minting item...";
-      console.log("You clicked me!!!");
-      const itemProp = {
-        symbol: this.course,
-        itemID: "ID :" + this.course,
-        properties: this.course + " class",
-        metadata: "Owned by: " + this.address,
-      };
-      const str = this.course;
-      const index = this.options.findIndex((item) => {
-        if (str == item) return item;
-      });
-      console.log(index);
-      var nft = this.tokenList[index];
-      console.log(nft);
-      nft.mint(this.address, itemProp).then((receipt) => {
-        this.hash = receipt.hash;
-        if (receipt.status == 1)
-          this.notification = "You have enrolled " + this.course;
-        else this.notification = "Failed to enroll";
-
+      this.msg = "Transfering Token...";
+      console.log(this.token);
+      this.token.transfer(this.address, this.value).then((receipt) => {
         this.loading = false;
+        if (receipt.status == 1) {
+          this.notification = "Transfered token to: "+ this.address;
+          this.hash = receipt.hash;
+          }
+        else {
+          this.notification = "error";
+          this.hash = receipt.hash;
+          }
+        // if (receipt.status == 1) return (this.hash = receipt.hash);
+        // else return (this.hash = "error");
       });
     },
     search() {
-      this.providerConnection
-        .getTransactionReceipt(this.hash)
-        .then((receipt) => {
-          this.notification = receipt.payload.value.msg;
-          return (this.receipt = receipt);
-        });
-    },
+      this.providerConnection.getTransactionReceipt(this.hash).then((receipt)=>{
+        this.notification = receipt.payload.value.msg;
+        return (this.receipt = receipt);
+      })
+    }
   },
 };
 </script>
