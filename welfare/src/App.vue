@@ -9,9 +9,6 @@
 
       <v-tabs-items style="height:100%" v-model="tab">
         <v-tab-item v-for="item in items" :key="item.tab">
-          <!-- <v-card flat>
-          <v-card-text>{{ item.content }}</v-card-text>
-        </v-card> -->
           <div v-if="item.tab == 'Create'">
             <div>
               <v-card class="mx-10">
@@ -253,6 +250,10 @@ export default {
           if (receipt.status == 1) console.log("success");
           else console.log("error");
           return this.Query(symbol);
+        })
+        .catch(error => {
+          this.loading = false;
+          this.notification.transfer = "<span style='color:red'>"+error+"</span>";
         });
     },
     Query(symbol) {
@@ -296,8 +297,10 @@ export default {
           this.notification.transfer = "error";
           this.hash = receipt.hash;
         }
-        // if (receipt.status == 1) return (this.hash = receipt.hash);
-        // else return (this.hash = "error");
+      })
+      .catch(error => {
+        this.loading = false;
+        this.notification.transfer = error;
       });
     },
     search() {
