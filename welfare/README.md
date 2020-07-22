@@ -1,4 +1,4 @@
-# welfare
+# Welfare
 
 ## Project setup
 ```

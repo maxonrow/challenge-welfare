@@ -8,5 +8,3 @@
 
 - A secured & transparent platform for the government to provide subsidy/relief to business
 - A platform for government that automate data verification and reporting, facilitate regulatory oversight, reduce operational friction, and eliminate errors associated with manual auditing.
-
-Nardo Lee, Please help help update this readme file on how to startup and use your project, step by step. Thanks :)
