@@ -198,6 +198,7 @@ export default {
     },
     msg: "",
     balance: 0,
+    perviousBalance: 0,
     address: "",
     value: "",
     silentRpc: "",
@@ -258,7 +259,7 @@ export default {
         symbol: this.symbol,
         decimals: 18,
         fixedSupply: true,
-        maxSupply: bigNumberify("10000000000000"),
+        maxSupply: bigNumberify(this.maxSupply),
         fee: {
           to: "mxw173qf9y2ae0cx8y07ez6qsl9k2gs2l5955hfc7x",
           value: bigNumberify("0"),
