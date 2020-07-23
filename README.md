@@ -9,4 +9,29 @@
 - A secured & transparent platform for the government to provide subsidy/relief to business
 - A platform for government that automate data verification and reporting, facilitate regulatory oversight, reduce operational friction, and eliminate errors associated with manual auditing.
 
-Nardo Lee, Please help help update this readme file on how to startup and use your project, step by step. Thanks :)
+## Starting Project
+
+### Step 1
+- Open terminal go to welfare folder.
+```
+cd welfare
+```
+
+### Step 2
+- Download additional library inside this project
+```
+npm install
+```
+
+### Step 3
+- Compiles and hot-reloads for testing
+```
+npm run serve
+```
+
+### Step 4
+- Open the link show on terminal.
+
+After open the link you should see this
+![Succes Image]
+(https://github.com/maxonrow/challenge-welfare/images/page.png)
