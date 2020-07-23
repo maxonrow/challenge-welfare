@@ -33,4 +33,4 @@ npm run serve
 - Open the link show on terminal.
 
 After open the link you should see this
-![Success Image](https://github.com/maxonrow/challenge-welfare/tree/master/images/page.png)
+![Success Image](https://github.com/maxonrow/challenge-welfare/blob/master/images/page.png)
