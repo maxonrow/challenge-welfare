@@ -40,7 +40,7 @@
                       ><v-text-field
                         v-model="maxSupply"
                         type="text"
-                        placeholder="Total Token to be create"
+                        placeholder="Total Token to be Create"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
