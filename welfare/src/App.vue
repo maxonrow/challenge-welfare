@@ -187,7 +187,7 @@ export default {
   data: () => ({
     loading: false,
     notification: {
-      create: "Hello",
+      create: "Hello World",
       transfer: "Please create a Token first",
       search: {
         type: "",

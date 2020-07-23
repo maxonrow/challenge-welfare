@@ -31,3 +31,7 @@ npm run serve
 
 ### Step 4
 - Open the link show on terminal.
+
+After open the link you should see this
+![Succes Image]
+(https://github.com/maxonrow/challenge-welfare/images/page.png)
