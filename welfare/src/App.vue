@@ -53,6 +53,7 @@
                 </v-card>
                 <div class="pt-5">
                   <v-card dark class="pa-5 mx-10 mb-5">
+                    <div style="text-decoration: underline overline">Output</div>
                     <div v-html="notification.create"></div>
                   </v-card>
                 </div>
@@ -81,6 +82,7 @@
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10 mb-5">
+                  <div style="text-decoration: underline overline">Output</div>
                   <div v-html="notification.transfer"></div>
                 </v-card>
               </div>
@@ -99,6 +101,7 @@
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10">
+                  <div style="text-decoration: underline overline">Output</div>
                   <div>
                     Transaction Type:
                     <span style="color:yellow">{{
@@ -149,6 +152,7 @@
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10">
+                  <div style="text-decoration: underline overline">Output</div>
                   <pre>{{ notification.check }}</pre>
                 </v-card>
               </div>
