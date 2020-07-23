@@ -28,31 +28,32 @@
                       ><v-text-field
                         v-model="name"
                         type="text"
-                        placeholder="name"
+                        placeholder="Token Name"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="symbol"
                         type="text"
-                        placeholder="symbol"
+                        placeholder="Token Symbol"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="maxSupply"
                         type="text"
-                        placeholder="maximum Supply"
+                        placeholder="Total Token to be Create"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="metadata"
                         type="text"
-                        placeholder="metadata"
+                        placeholder="Token description"
                     /></v-col>
                     <v-btn @click="create()">Create</v-btn>
                   </v-row>
                 </v-card>
                 <div class="pt-5">
                   <v-card dark class="pa-5 mx-10 mb-5">
+                    <div style="text-decoration: underline overline">Output</div>
                     <div v-html="notification.create"></div>
                   </v-card>
                 </div>
@@ -68,19 +69,20 @@
                     ><v-text-field
                       v-model="address"
                       type="text"
-                      placeholder="wallet address"
+                      placeholder="Wallet Address (e.g. mxw123xwuat5h9x92w6vdtn4fl2l03t7d793qugxvc)"
                   /></v-col>
                   <v-col cols="12"
                     ><v-text-field
                       v-model="value"
                       type="text"
-                      placeholder="value"
+                      placeholder="Amount to Transfer"
                   /></v-col>
                   <v-btn @click="transfer()">Transfer</v-btn>
                 </v-row>
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10 mb-5">
+                  <div style="text-decoration: underline overline">Output</div>
                   <div v-html="notification.transfer"></div>
                 </v-card>
               </div>
@@ -92,13 +94,14 @@
                     Check Transaction
                   </v-col>
                   <v-col cols="12"
-                    ><v-text-field v-model="hash" type="text" placeholder="Hash"
+                    ><v-text-field v-model="hash" type="text" placeholder="Transaction Hash (e.g. 0x733e14cca169ea4c5234a11efd61e6abee3dfe37279040686c05314a6860c670)"
                   /></v-col>
                   <v-btn @click="search">Check</v-btn>
                 </v-row>
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10">
+                  <div style="text-decoration: underline overline">Output</div>
                   <div>
                     Transaction Type:
                     <span style="color:yellow">{{
@@ -142,19 +145,14 @@
                     ><v-text-field
                       v-model="symbol"
                       type="text"
-                      placeholder="symbol"
-                  /></v-col>
-                  <v-col cols="12"
-                    ><v-text-field
-                      v-model="address"
-                      type="text"
-                      placeholder="Waller Address"
+                      placeholder="Token Symbol"
                   /></v-col>
                   <v-btn @click="getBalance">Check</v-btn>
                 </v-row>
               </v-card>
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10">
+                  <div style="text-decoration: underline overline">Output</div>
                   <pre>{{ notification.check }}</pre>
                 </v-card>
               </div>
@@ -200,6 +198,7 @@ export default {
     },
     msg: "",
     balance: 0,
+    perviousBalance: 0,
     address: "",
     value: "",
     silentRpc: "",
@@ -260,7 +259,7 @@ export default {
         symbol: this.symbol,
         decimals: 18,
         fixedSupply: true,
-        maxSupply: bigNumberify("10000000000000"),
+        maxSupply: bigNumberify(this.maxSupply),
         fee: {
           to: "mxw173qf9y2ae0cx8y07ez6qsl9k2gs2l5955hfc7x",
           value: bigNumberify("0"),
