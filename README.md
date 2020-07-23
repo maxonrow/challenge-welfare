@@ -8,3 +8,26 @@
 
 - A secured & transparent platform for the government to provide subsidy/relief to business
 - A platform for government that automate data verification and reporting, facilitate regulatory oversight, reduce operational friction, and eliminate errors associated with manual auditing.
+
+## Starting Project
+
+### Step 1
+- Open terminal go to welfare folder.
+```
+cd welfare
+```
+
+### Step 2
+- Download additional library inside this project
+```
+npm install
+```
+
+### Step 3
+- Compiles and hot-reloads for testing
+```
+npm run serve
+```
+
+### Step 4
+- Open the link show on terminal.

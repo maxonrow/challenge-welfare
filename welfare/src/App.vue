@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="navbar-wrapper">
+    <div class="navbar-wrapper pb-5">
       <v-app-bar color="primary accent-4" dark>
         <v-spacer></v-spacer>
         <v-toolbar-title class="title">Welfare</v-toolbar-title>
@@ -132,6 +132,33 @@
                 </v-card>
               </div>
             </div>
+            <div v-if="item.tab == 'Check'">
+              <v-card class="mx-10">
+                <v-row class="pa-5 d-flex justify-center">
+                  <v-col>
+                    Check Balance
+                  </v-col>
+                  <v-col cols="12"
+                    ><v-text-field
+                      v-model="symbol"
+                      type="text"
+                      placeholder="symbol"
+                  /></v-col>
+                  <v-col cols="12"
+                    ><v-text-field
+                      v-model="address"
+                      type="text"
+                      placeholder="Waller Address"
+                  /></v-col>
+                  <v-btn @click="getBalance">Check</v-btn>
+                </v-row>
+              </v-card>
+              <div class="pt-5">
+                <v-card dark class="pa-5 mx-10">
+                  <pre>{{ notification.check }}</pre>
+                </v-card>
+              </div>
+            </div>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -169,6 +196,7 @@ export default {
         to: "",
         token: "",
       },
+      check: {},
     },
     msg: "",
     balance: 0,
@@ -191,6 +219,7 @@ export default {
       { tab: "Create", content: "test" },
       { tab: "Transfer", content: "test" },
       { tab: "Search", content: "test" },
+      { tab: "Check", content: "test" },
     ],
   }),
   methods: {
@@ -305,19 +334,19 @@ export default {
           this.loading = false;
           this.notification.create =
             "Token <span style='color:green'>" + symbol + "</span> created";
-          return (this.token = fToken);
+          this.token = fToken;
+          return fToken;
         }
       );
     },
-    getBalance(token) {
-      return token.getBalance().then((balance) => {
-        console.log(
-          "Total " +
-            token.state.name +
-            " Token Owned: " +
-            mxw.utils.formatUnits(balance, token.state.decimals)
-        );
-        return balance;
+    getBalance() {
+      this.loading = true;
+      this.Query(this.symbol).then((fToken) => {
+        this.msg = "Checking Balance";
+        return fToken.getBalance().then((balance) => {
+          this.notification.check = balance;
+          this.loading = false;
+        });
       });
     },
     transfer() {
@@ -359,6 +388,17 @@ export default {
           this.notification.search.token =
             receipt.payload.value.msg[0].value.symbol;
           return (this.receipt = receipt);
+        });
+    },
+    getAccountState() {
+      this.loading = true;
+      this.msg = "Checking Balance";
+      this.providerConnection
+        .getAccountState(this.address, this.symbol)
+        .then((state) => {
+          console.log("Here");
+          this.notification.check = state;
+          this.loading = false;
         });
     },
   },
