@@ -18,7 +18,7 @@ cd welfare
 ```
 
 ### Step 2
-- Download additional library inside this project
+- If first time running thiss project download additional library inside this project
 ```
 npm install
 ```

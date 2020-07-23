@@ -28,25 +28,25 @@
                       ><v-text-field
                         v-model="name"
                         type="text"
-                        placeholder="name"
+                        placeholder="Token Name"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="symbol"
                         type="text"
-                        placeholder="symbol"
+                        placeholder="Token Symbol"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="maxSupply"
                         type="text"
-                        placeholder="maximum Supply"
+                        placeholder="Total Token to be create"
                     /></v-col>
                     <v-col cols="12"
                       ><v-text-field
                         v-model="metadata"
                         type="text"
-                        placeholder="metadata"
+                        placeholder="Token description"
                     /></v-col>
                     <v-btn @click="create()">Create</v-btn>
                   </v-row>
@@ -68,13 +68,13 @@
                     ><v-text-field
                       v-model="address"
                       type="text"
-                      placeholder="wallet address"
+                      placeholder="Wallet Address (e.g. mxw123xwuat5h9x92w6vdtn4fl2l03t7d793qugxvc)"
                   /></v-col>
                   <v-col cols="12"
                     ><v-text-field
                       v-model="value"
                       type="text"
-                      placeholder="value"
+                      placeholder="Amount to Transfer"
                   /></v-col>
                   <v-btn @click="transfer()">Transfer</v-btn>
                 </v-row>
@@ -92,7 +92,7 @@
                     Check Transaction
                   </v-col>
                   <v-col cols="12"
-                    ><v-text-field v-model="hash" type="text" placeholder="Hash"
+                    ><v-text-field v-model="hash" type="text" placeholder="Transaction Hash (e.g. mxw123xwuat5h9x92w6vdtn4fl2l03t7d793qugxvc)"
                   /></v-col>
                   <v-btn @click="search">Check</v-btn>
                 </v-row>
@@ -142,13 +142,7 @@
                     ><v-text-field
                       v-model="symbol"
                       type="text"
-                      placeholder="symbol"
-                  /></v-col>
-                  <v-col cols="12"
-                    ><v-text-field
-                      v-model="address"
-                      type="text"
-                      placeholder="Waller Address"
+                      placeholder="Token Symbol"
                   /></v-col>
                   <v-btn @click="getBalance">Check</v-btn>
                 </v-row>
