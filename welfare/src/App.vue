@@ -92,7 +92,7 @@
                     Check Transaction
                   </v-col>
                   <v-col cols="12"
-                    ><v-text-field v-model="hash" type="text" placeholder="Transaction Hash (e.g. mxw123xwuat5h9x92w6vdtn4fl2l03t7d793qugxvc)"
+                    ><v-text-field v-model="hash" type="text" placeholder="Transaction Hash (e.g. 0x733e14cca169ea4c5234a11efd61e6abee3dfe37279040686c05314a6860c670)"
                   /></v-col>
                   <v-btn @click="search">Check</v-btn>
                 </v-row>
