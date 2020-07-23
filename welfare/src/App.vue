@@ -153,7 +153,12 @@
               <div class="pt-5">
                 <v-card dark class="pa-5 mx-10">
                   <div style="text-decoration: underline overline">Output</div>
-                  <pre>{{ notification.check }}</pre>
+                  <div>
+                    Current Token Balance: 
+                    <span style="color:yellow">{{
+                      notification.check
+                    }}</span>
+                  </div>
                 </v-card>
               </div>
             </div>
@@ -194,7 +199,7 @@ export default {
         to: "",
         token: "",
       },
-      check: {},
+      check: "",
     },
     msg: "",
     balance: 0,
