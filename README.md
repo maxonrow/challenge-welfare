@@ -12,25 +12,26 @@
 ## Starting Project
 
 ### Step 1
-- Open terminal go to welfare folder.
-```
-cd welfare
-```
+
+- Open terminal go to welfare folder `cd welfare`
 
 ### Step 2
-- If first time running thiss project download additional library inside this project
-```
-npm install
-```
+
+- If first time running thiss project download additional library inside this project `npm install`
 
 ### Step 3
-- Compiles and hot-reloads for testing
-```
-npm run serve
-```
+
+- Compiles and hot-reloads for testing `sudo npm run serve`
 
 ### Step 4
+
 - Open the link show on terminal.
+
+```bash
+  App running at:
+  - Local:   http://localhost:3001/
+  - Network: http://192.168.20.227:3001/
+```
 
 After open the link you should see this
 ![Success Image](https://github.com/maxonrow/challenge-welfare/blob/master/images/page.png)
