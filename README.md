@@ -31,4 +31,4 @@
 
 ### Step 5 - Expected output
 
-![Expected output](images/page.png)
+![Expected output](images/welfare.png)
