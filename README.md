@@ -1,4 +1,6 @@
-# Welfare
+# ![https://maxonrow.com](https://maxonrow.com/images/maxonrow_gold.png)
+
+## Welfare
 
 ## Problem Statement
 
@@ -9,29 +11,24 @@
 - A secured & transparent platform for the government to provide subsidy/relief to business
 - A platform for government that automate data verification and reporting, facilitate regulatory oversight, reduce operational friction, and eliminate errors associated with manual auditing.
 
-## Starting Project
+## Start Up Social Project
 
-### Step 1
+### Step 1 - Start up blockchain localnet
 
-- Open terminal go to welfare folder `cd welfare`
+- Start localnet [here](https://github.com/maxonrow/maxathon/tree/master/blockchain-starter-kit)
 
-### Step 2
+### Step 2 - Clone project
 
-- If first time running thiss project download additional library inside this project `npm install`
+- Clone project `$ git clone https://github.com/maxonrow/challenge-welfare.git`
 
-### Step 3
+### Step 3 - Navigate to path
 
-- Compiles and hot-reloads for testing `sudo npm run serve`
+- Go to path `cd challenge-welfare/welfare`
 
-### Step 4
+### Step 4 - Build & run service
 
-- Open the link show on terminal.
+- run `npm i` & subsequently with `sudo npm run serve` & your service should be up at `http://localhost:3001/`
 
-```bash
-  App running at:
-  - Local:   http://localhost:3001/
-  - Network: http://192.168.20.227:3001/
-```
+### Step 5 - Expected output
 
-After open the link you should see this
-![Success Image](https://github.com/maxonrow/challenge-welfare/blob/master/images/page.png)
+![Expected output](images/page.png)
