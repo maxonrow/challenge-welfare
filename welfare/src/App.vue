@@ -343,16 +343,6 @@ export default {
         }
       );
     },
-    getBalance() {
-      this.loading = true;
-      this.Query(this.symbol).then((fToken) => {
-        this.msg = "Checking Balance";
-        return fToken.getBalance().then((balance) => {
-          this.notification.check = balance;
-          this.loading = false;
-        });
-      });
-    },
     transfer() {
       this.loading = true;
       this.msg = "Transfering Token...";
