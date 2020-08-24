@@ -4,7 +4,7 @@
 
 ## Problem Statement
 
-- How do we improve the process flow between businesses and the government during a pandemic? Financial operations, especially during difficult times, are prone to having low transparency, limited traceability,  delays, required intermediaries, and extra costs. While leveraging blockchain Maxonrow FT/NFT, how can we eliminate intermediaries to lower transaction costs, take back control from financial intermediaries while providing transparency to beneficiaries of welfare programs?
+- How do we improve the process flow between businesses and the government during a pandemic? Financial operations, especially during difficult times, are prone to having low transparency, limited traceability,  delays, required intermediaries, and extra costs. By leveraging blockchain Maxonrow FT/NFT, how can we eliminate intermediaries to lower transaction costs, take back control from financial intermediaries while providing transparency to beneficiaries of welfare programs?
 
 ## Example Solution
 
