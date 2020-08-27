@@ -11,7 +11,7 @@
 - A secured & transparent platform for the government to provide subsidy/relief to business
 - A platform for government that automate data verification and reporting, facilitate regulatory oversight, reduce operational friction, and eliminate errors associated with manual auditing.
 
-## Start Up Social Project
+## Start Up The Project
 
 ### Step 1 - Start up blockchain localnet
 
