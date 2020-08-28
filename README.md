@@ -2,7 +2,11 @@
 
 ## Welfare
 
-## Problem Statement
+## The Problem We Want to Tackle
+
+During difficult times, financial operations typically have low transparency, limited traceability, delays, required intermediaries, extra costs and are vulnerable to any misuse. By leveraging FTs/NFTs in the Maxonrow blockchain, how do we improve the relationship between businesses and governments during a pandemic? How do we help the government subsidy process and speed up SME business recovery? 
+
+## Summary of Problem Statement
 
 - How do we improve the process flow between businesses and the government during a pandemic? Financial operations, especially during difficult times, are prone to having low transparency, limited traceability,  delays, required intermediaries, and extra costs. By leveraging blockchain Maxonrow FT/NFT, how can we eliminate intermediaries to lower transaction costs, take back control from financial intermediaries while providing transparency to beneficiaries of welfare programs?
 
