@@ -36,3 +36,8 @@ During difficult times, financial operations typically have low transparency, li
 ### Step 5 - Expected output
 
 ![Expected output](images/welfare.png)
+
+### Step 6 - Checkout article
+
+- checkout our [cookbook](https://medium.com/maxonrow/maxathon-challenge-3-welfare-c5a898b417b1).
+- please! remember to claps, follow & share. we will mint you something! You will find out soon!
